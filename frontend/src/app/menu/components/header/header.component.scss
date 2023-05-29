@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.toggle-sidebar-button {
+  margin-right: 8px;
+}
+
+.app-name-banner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.user-name {
+  margin-right: 8px;
+}

@@ -1,0 +1,59 @@
+/* login.component.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+mat-card {
+  padding: 3em; /* Increase the padding */
+  margin: 2em; /* Increase the margin */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
+  padding: auto;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-actions {
+  margin-top: 2em;
+}
+
+.links-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.login-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.login-links a {
+  margin-bottom: 0.5em;
+}
+
+.error-snackbar {
+  position: fixed;
+  bottom: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: white;
+  padding: 1em;
+  border-radius: 4px;
+  z-index: 9999;
+}

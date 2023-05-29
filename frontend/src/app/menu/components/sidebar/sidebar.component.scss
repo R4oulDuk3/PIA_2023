@@ -1,0 +1,35 @@
+/* navigation-menu.component.css */
+.content {
+  transition: margin-left 0.3s;
+}
+
+.menu-open {
+  margin-left: 250px; /* Adjust the width of the sidebar as needed */
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 250px; /* Adjust the width of the sidebar as needed */
+}
+
+mat-sidenav-content {
+  padding: 24px;
+}
+
+mat-icon {
+  margin-right: 8px;
+}
+
+a.mat-list-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  transition: background-color 0.3s;
+}
+
+a.mat-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Adjust the hover color as needed */
+}
