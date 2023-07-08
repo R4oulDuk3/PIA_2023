@@ -1,0 +1,120 @@
+<!-- register-client.component.html -->
+
+<div class="container">
+  <div class="register-form">
+    <div *ngIf="(userType$ | async ) != 'admin'">
+      <h1>Register and get the client you will ever need</h1>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Agency Name</mat-label>
+        <input matInput formControlName="agencyName" placeholder="Enter your agency name">
+        <mat-error *ngIf="f.agencyName.errors?.required">Agency name is required.</mat-error>
+        <mat-error *ngIf="f.agencyName.errors?.minlength">Agency name must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="country" placeholder="Enter your country">
+        <mat-error *ngIf="f.country.errors?.required">Country is required.</mat-error>
+        <mat-error *ngIf="f.country.errors?.minlength">Country must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" placeholder="Enter your city">
+        <mat-error *ngIf="f.city.errors?.required">City is required.</mat-error>
+        <mat-error *ngIf="f.city.errors?.minlength">City must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" placeholder="Enter your address">
+        <mat-error *ngIf="f.address.errors?.required">Address is required.</mat-error>
+        <mat-error *ngIf="f.address.errors?.minlength">Address must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Agency Unique Code</mat-label>
+        <input matInput formControlName="agencyCode" placeholder="Enter your agency unique code">
+        <mat-error *ngIf="f.agencyCode.errors?.required">Agency unique code is required.</mat-error>
+        <mat-error *ngIf="f.agencyCode.errors?.minlength">Agency unique code must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Short Description</mat-label>
+        <textarea matInput formControlName="shortDescription" placeholder="Enter a short description" rows="5"></textarea>
+        <mat-error *ngIf="f.shortDescription.errors?.required">Short description is required.</mat-error>
+        <mat-error *ngIf="f.shortDescription.errors?.minlength">Short description must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Enter your password">
+        <mat-error *ngIf="f.password.errors?.required">Password is required.</mat-error>
+        <mat-error *ngIf="f.password.errors?.minlength">Password must be at least 6 characters long.</mat-error>
+        <mat-error *ngIf="f.password.errors?.maxlength">Password cannot exceed 12 characters.</mat-error>
+        <mat-error *ngIf="f.password.errors?.pattern">Password must contain at least one uppercase letter, one number, and one special character.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm your password">
+        <mat-error *ngIf="f.confirmPassword.errors?.required">Confirm password is required.</mat-error>
+        <mat-error *ngIf="f.confirmPassword.errors?.passwordMismatch">Passwords do not match.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" placeholder="Enter your phone number">
+        <mat-error *ngIf="f.phone.errors?.required">Phone number is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email">
+        <mat-error *ngIf="f.email.errors?.required">Email is required.</mat-error>
+        <mat-error *ngIf="f.email.errors?.email">Invalid email address.</mat-error>
+      </mat-form-field>
+
+
+
+
+      <!-- <mat-form-field appearance="outline"> -->
+        <mat-label>User avatar (300x300)</mat-label>
+        <input class="ng-hide" id="input-file-id" multiple type="file" (change)="onImageChange($event)" />
+        <!-- <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <mat-error *ngIf="uploadError">{{ uploadError }}</mat-error>
+      <!-- </mat-form-field> -->
+
+      <div class="image-upload-status" [ngClass]="{ 'uploading': isUploading, 'success': !isUploading && !uploadError }">
+        <mat-icon *ngIf="isUploading">cloud_upload</mat-icon>
+        <mat-icon *ngIf="!isUploading && !uploadError">check_circle</mat-icon>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isRegistering || registerForm.invalid">
+        <span *ngIf="isRegistering" class="spinner"></span>
+        <span *ngIf="!isRegistering">{{ (userType$ | async ) != 'admin' ? 'Register' : 'Create Agency' }}</span>
+      </button>
+
+
+      <div *ngIf="(userType$ | async ) != 'admin'">
+
+        <div class="separator"></div>
+
+        <div class="links">
+          <a routerLink="/register">Already have an account? Click here!</a>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+</div>

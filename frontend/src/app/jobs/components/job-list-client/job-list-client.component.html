@@ -1,0 +1,67 @@
+<h1>Job Requests</h1>
+
+<mat-table [dataSource]="jobRequests" class="mat-elevation-z8">
+  <!-- Column Definitions -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.id }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="startDate">
+    <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.startDate | date }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="endDate">
+    <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.endDate | date }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="agencyName">
+    <mat-header-cell *matHeaderCellDef> Agency Name </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.agencyName }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="objectAddress">
+    <mat-header-cell *matHeaderCellDef> Object Address </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.objectAddress }} </mat-cell>
+  </ng-container>
+
+
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest" [style.backgroundColor]="getStatusColor(jobRequest.status)">
+      {{ jobRequest.status }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="offer">
+    <mat-header-cell *matHeaderCellDef> Offer </mat-header-cell>
+    <mat-cell *matCellDef="let jobRequest"> {{ jobRequest.offer == null ? "No offer": jobRequest.offer }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let jobRequest">
+      <button mat-icon-button color="primary"
+      [disabled]="jobRequest.offer == null"
+      (click)="acceptRequest(jobRequest.id)" >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+      <button mat-icon-button
+       color="warn"
+       (click)="rejectRequest(jobRequest.id)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+
+  <!-- Table Header -->
+  <mat-header-row *matHeaderRowDef="['id', 'startDate', 'endDate', 'agencyName', 'objectAddress', 'status', 'offer', 'actions']"></mat-header-row>
+
+  <!-- Table Rows -->
+  <mat-row *matRowDef="let jobRequest; columns: ['id', 'startDate', 'endDate', 'agencyName', 'objectAddress', 'status', 'offer', 'actions']"></mat-row>
+</mat-table>
+<app-job-list-active-agency></app-job-list-active-agency>

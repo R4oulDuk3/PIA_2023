@@ -1,0 +1,129 @@
+<div *ngIf="((this.userType) == 'client') && clientUserInfo != null ">
+  <div class="container" >
+    <div class="profile-card mat-elevation-z8">
+      <div class="profile-header">
+        <div class="profile-image">
+          <img [src]="clientUserInfo.image" alt="Profile Picture" />
+        </div>
+        <div class="profile-details">
+          <h2>{{ clientUserInfo.name }} {{ clientUserInfo.surname }}</h2>
+          <p><strong>Email: </strong>{{ clientUserInfo.email }}</p>
+          <p><strong>Phone: </strong>{{ clientUserInfo.phone }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button mat-raised-button color="primary" (click)="toggleClientForm()">{{ showClientForm ? 'Hide Form' : 'Show Form' }}</button>
+
+<div *ngIf="showClientForm">
+  <form [formGroup]="formClient" (ngSubmit)="submitClientForm()" class="form">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="formClient.controls['name'].hasError('required')">Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Surname</mat-label>
+      <input matInput formControlName="surname" required>
+      <mat-error *ngIf="formClient.controls['surname'].hasError('required')">Surname is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="formClient.controls['email'].hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="formClient.controls['email'].hasError('email')">Invalid email format</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" required>
+      <mat-error *ngIf="formClient.controls['phone'].hasError('required')">Phone is required</mat-error>
+    </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline"> -->
+        <mat-label>User avatar (300x300)</mat-label>
+        <input class="ng-hide" id="input-file-id" multiple type="file" (change)="onImageChange($event)" />
+        <!-- <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <mat-error *ngIf="uploadError">{{ uploadError }}</mat-error>
+      <!-- </mat-form-field> -->
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!formClient.valid">Submit</button>
+  </form>
+</div>
+</div>
+<div *ngIf="((this.userType) == 'agency') && agencyUserInfo != null ">
+  <div class="profile-card mat-elevation-z8">
+    <div class="profile-header">
+      <div class="profile-image">
+        <img [src]="agencyUserInfo.image" alt="Profile Picture" />
+      </div>
+      <div class="profile-details">
+        <h2>{{ agencyUserInfo.name }}</h2>
+        <p><strong>Email: </strong>{{ agencyUserInfo.email }}</p>
+        <p>{{ agencyUserInfo.phone }}</p>
+        <p><strong>Address: </strong> {{ agencyUserInfo.address }}
+           {{agencyUserInfo.city}}
+            {{agencyUserInfo.country}}</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="toggleAgencyForm()">{{ showAgencyForm ? 'Hide Form' : 'Show Form' }}</button>
+
+<div *ngIf="showAgencyForm">
+  <form [formGroup]="formAgency" (ngSubmit)="submitAgencyForm()" class="form">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="formAgency.controls['name'].hasError('required')">Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <input matInput formControlName="country" required>
+      <mat-error *ngIf="formAgency.controls['country'].hasError('required')">Country is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" required>
+      <mat-error *ngIf="formAgency.controls['city'].hasError('required')">City is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" required>
+      <mat-error *ngIf="formAgency.controls['address'].hasError('required')">Address is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="formAgency.controls['email'].hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="formAgency.controls['email'].hasError('email')">Invalid email format</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" required>
+      <mat-error *ngIf="formAgency.controls['phone'].hasError('required')">Phone is required</mat-error>
+    </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline"> -->
+        <mat-label>User avatar (300x300)</mat-label>
+        <input class="ng-hide" id="input-file-id" multiple type="file" (change)="onImageChange($event)" />
+        <!-- <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <mat-error *ngIf="uploadError">{{ uploadError }}</mat-error>
+      <!-- </mat-form-field> -->
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!formAgency.valid">Submit</button>
+  </form>
+</div>
+  </div>
+</div>
+
+

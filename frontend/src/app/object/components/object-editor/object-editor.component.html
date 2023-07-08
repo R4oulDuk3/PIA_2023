@@ -1,0 +1,176 @@
+<h1>Object Editor</h1>
+<div class="flex-container">
+  <div class="object-editor-element">
+    <form [formGroup]="buildingForm">
+      <table cellspacing="0" class="form-table">
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Object Type</mat-label>
+              <select matNativeControl formControlName="objectType" (ngModelChange)="checkObjectValidity()">
+                <option value="flat">Flat</option>
+                <option value="house">House</option>
+              </select>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Country</mat-label>
+              <input matInput formControlName="country" placeholder="Country" (ngModelChange)="checkObjectValidity()">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>City</mat-label>
+              <input matInput formControlName="city" placeholder="City" (ngModelChange)="checkObjectValidity()">
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" placeholder="Address" (ngModelChange)="checkObjectValidity()">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <mat-form-field appearance="outline">
+        <mat-label>Select JSON File</mat-label>
+        <input type="file" (change)="onFileSelected($event)" accept=".json" style="display: none" #fileInput>
+        <mat-icon matSuffix>attach_file</mat-icon>
+        <input matInput [value]="selectedFileName" placeholder="Choose file" readonly (click)="fileInput.click()">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="object-editor-element">
+    <div #stageContainer class="stage"></div>
+    <div class="demo-button-container" *ngIf="drawingMode === 'ROOM'">
+      <button mat-raised-button
+      class="demo-button"
+      (click)="updateDrawingMode('DOOR')"
+      >
+        Switch to doors
+      </button>
+    </div>
+    <div class="demo-button-container" *ngIf="drawingMode === 'DOOR'">
+      <button mat-raised-button
+      class="demo-button"
+      (click)="updateDrawingMode('ROOM')">
+        Switch to rooms
+      </button>
+
+      <button mat-raised-button
+      class="demo-button"
+      (click)="toggleDoorDrawingMode()">
+        Toggle door draw mode ({{doorDrawingMode}})
+      </button>
+    </div>
+  </div>
+
+
+  <div class="tables">
+    <h1 class="table-title">Room Form</h1>
+    <form [formGroup]="roomForm">
+      <mat-form-field>
+        <mat-label>Width</mat-label>
+        <input matInput type="number" formControlName="width" placeholder="50">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Height</mat-label>
+        <input matInput type="number" formControlName="height" placeholder="50">
+      </mat-form-field>
+    </form>
+    <h1 class="table-title">Rooms</h1>
+    <table mat-table #roomsTable [dataSource]="roomRectangles" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="X">
+        <th mat-header-cell *matHeaderCellDef> X </th>
+        <td mat-cell *matCellDef="let element"> {{element.x()}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Y">
+        <th mat-header-cell *matHeaderCellDef> Y </th>
+        <td mat-cell *matCellDef="let element"> {{element.y()}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="width">
+        <th mat-header-cell *matHeaderCellDef> Width </th>
+        <td mat-cell *matCellDef="let element"> {{element.width()}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="height">
+        <th mat-header-cell *matHeaderCellDef> Height </th>
+        <td mat-cell *matCellDef="let element"> {{element.height()}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn"
+          (click)="deleteRoom(element)"
+          [disabled]= "drawingMode != 'ROOM'">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <h1 class="table-title">Doors</h1>
+    <div class="tables">
+      <table mat-table #doorsTable [dataSource]="doorRectangles" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="X">
+          <th mat-header-cell *matHeaderCellDef> X </th>
+          <td mat-cell *matCellDef="let element"> {{element.x()}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Y">
+          <th mat-header-cell *matHeaderCellDef> Y </th>
+          <td mat-cell *matCellDef="let element"> {{element.y()}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="width">
+          <th mat-header-cell *matHeaderCellDef> Width </th>
+          <td mat-cell *matCellDef="let element"> {{element.width()}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="height">
+          <th mat-header-cell *matHeaderCellDef> Height </th>
+          <td mat-cell *matCellDef="let element"> {{element.height()}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="deleteDoor(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="demo-button-container">
+    <button mat-raised-button
+    class="demo-button"
+    [disabled]="!objectValid"
+    (click)="confirmObject()"
+    >
+      Confirm object
+    </button>
+  </div>
+</div>

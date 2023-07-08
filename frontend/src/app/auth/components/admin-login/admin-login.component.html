@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="login-form">
+    <h1>Admin Login</h1>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Enter your username" [(ngModel)]="username">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Enter your password" [(ngModel)]="password">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="login()" [disabled]="isLoading || !username || !password">
+      <span *ngIf="isLoading" class="spinner"></span>
+      <span *ngIf="!isLoading">Login</span>
+    </button>
+  </div>
+</div>

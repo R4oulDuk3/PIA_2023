@@ -1,0 +1,19 @@
+
+<div *ngIf="(userType$ | async) === 'guest'">
+  <app-agency-list></app-agency-list>
+</div>
+<div *ngIf="(userType$ | async) === 'client'">
+  <app-agency-list></app-agency-list>
+</div>
+
+<div *ngIf="(userType$ | async) === 'agency'">
+  <app-worker-list></app-worker-list>
+</div>
+
+<div *ngIf="(userType$ | async) === 'admin'">
+  <app-registration-requests></app-registration-requests>
+</div>
+
+<!-- <p *ngIf="(userType$ | async) === 'agency'">Agency</p>
+
+<p *ngIf="(userType$ | async) === 'admin'">Admin</p> -->

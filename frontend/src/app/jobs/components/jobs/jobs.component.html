@@ -1,0 +1,5 @@
+
+<div *ngIf="(userType$ | async) == 'agency'">
+  <app-job-list-active-agency></app-job-list-active-agency>
+  <app-job-list-agency></app-job-list-agency>
+</div>

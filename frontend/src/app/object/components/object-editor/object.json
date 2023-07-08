@@ -1,0 +1,22 @@
+{
+  "type": "Flat",
+  "address": "Baker Street 221B",
+  "country": "UK",
+  "city": "London",
+  "rooms": [
+    {
+      "cordX": 5,
+      "cordY": 5,
+      "width": 50,
+      "height": 50
+    }
+  ],
+  "doors": [
+    {
+      "cordX": 5,
+      "cordY": 5,
+      "width": 7,
+      "height": 15
+    }
+  ]
+}

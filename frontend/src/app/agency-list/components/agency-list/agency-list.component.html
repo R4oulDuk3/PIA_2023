@@ -1,0 +1,67 @@
+<!-- search-menu.component.html -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Search Menu</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput placeholder="Name" [(ngModel)]="name" (input)="performSearch()" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Address" [(ngModel)]="address" (input)="performSearch()" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Sort by Name</mat-label>
+      <mat-select [(ngModel)]="sortByName" (selectionChange)="performSearch()">
+        <mat-option value="asc">Ascending</mat-option>
+        <mat-option value="desc">Descending</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Sort by Address</mat-label>
+      <mat-select [(ngModel)]="sortByAddress" (selectionChange)="performSearch()">
+        <mat-option value="asc">Ascending</mat-option>
+        <mat-option value="desc">Descending</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="agencyData">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let agency">{{ agency.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <td mat-cell *matCellDef="let agency">{{ agency.address }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let agency">{{ agency.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef>Image</th>
+        <td mat-cell *matCellDef="let agency">
+          <img [src]="agency.image" alt="Agency Image" width="100" height="100">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let agency">
+          <button mat-button color="primary" (click)="visitAgency(agency.id)">Visit</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let agency; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,63 @@
+<mat-card>
+  <mat-card-title>Workers</mat-card-title>
+  <mat-card-content>
+    <p>{{ result.currentWorkerCount }} / {{ result.maxWorkerCount }}</p>
+    <button mat-button (click)="toggleWorkersTable()">{{ showWorkersTable ? 'Minimize' : 'Expand' }}</button>
+    <button mat-button
+     (click)="createWorker()"
+     [disabled]="result.currentWorkerCount === result.maxWorkerCount"
+     >Create worker</button>
+
+    <table *ngIf="showWorkersTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Email</th>
+          <th>Specialization</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let worker of result.workers">
+          <td>{{ worker.id }}</td>
+          <td>{{ worker.name }}</td>
+          <td>{{ worker.surname }}</td>
+          <td>{{ worker.email }}</td>
+          <td>{{ worker.specialization }}</td>
+          <td>
+            <button mat-button (click)="viewWorker(worker.id)">Overview</button>
+            <button mat-button (click)="deleteWorker(worker.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="userType == 'agency'">
+  <mat-card-title>Worker Increase Requests</mat-card-title>
+  <div class="form-row">
+    <input matInput type="number" placeholder="New Max Worker Number" [(ngModel)]="newMaxWorkerCount" name="newMaxWorkerNumber">
+    <button mat-raised-button color="primary" [disabled]="!isConfirmEnabled()" (click)="createIncreaseRequest()">Confirm</button>
+  </div>
+  <mat-card-content>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>New Max Worker Count</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requests" [ngClass]="getRequestRowClass(request.status)">
+          <td>{{ request.id }}</td>
+          <td>{{ request.newMaxWorkerCount }}</td>
+          <td>{{ request.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

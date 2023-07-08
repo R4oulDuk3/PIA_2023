@@ -1,0 +1,58 @@
+<h2>Active jobs</h2>
+
+<table mat-table [dataSource]="activeJobs" class="mat-elevation-z8">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.id }}</td>
+  </ng-container>
+
+  <!-- Start Date Column -->
+  <ng-container matColumnDef="startDate">
+    <th mat-header-cell *matHeaderCellDef>Start Date</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.startDate | date }}</td>
+  </ng-container>
+
+  <!-- End Date Column -->
+  <ng-container matColumnDef="endDate">
+    <th mat-header-cell *matHeaderCellDef>End Date</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.endDate | date }}</td>
+  </ng-container>
+
+  <!-- State Column -->
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef>State</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.state }}</td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>Price</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.price }}</td>
+  </ng-container>
+
+  <!-- Agency Name Column -->
+  <ng-container matColumnDef="agencyName">
+    <th mat-header-cell *matHeaderCellDef>Agency Name</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.agencyName }}</td>
+  </ng-container>
+
+  <!-- Object Address Column -->
+  <ng-container matColumnDef="objectAddress">
+    <th mat-header-cell *matHeaderCellDef>Object Address</th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">{{ job.objectAddress }}</td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let job" class="mat-cell-with-padding">
+      <button mat-icon-button color="primary" (click)="navigateToJobDetails(job.id)">
+        <mat-icon>work</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['id', 'startDate', 'endDate', 'state', 'price', 'agencyName', 'objectAddress', 'actions']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id', 'startDate', 'endDate', 'state', 'price', 'agencyName', 'objectAddress', 'actions']"></tr>
+</table>

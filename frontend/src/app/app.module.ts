@@ -9,10 +9,16 @@ import { RoutingModule } from './routing/routing.module';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './state/auth/auth.reducers';
 import { menuReducer } from './state/menu/menu.reducers';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JWTInterceptor } from './interceptors/jwt.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { agencyListReducer } from './state/agency-list/agency-list.reducers';
+import { objectReducer } from './state/objects/object.reducers';
+import { jobsReducer } from './state/jobs/jobs.reducers';
+import { profileReducer } from './state/profile/profile.reducers';
+import { workersReducer } from './state/workers/workers.reducers';
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AuthModule,
@@ -21,9 +27,19 @@ import { menuReducer } from './state/menu/menu.reducers';
     RoutingModule,
     StoreModule.forRoot({
       auth: authReducer,
-     menu: menuReducer }),
+      menu: menuReducer,
+      agencyList: agencyListReducer,
+      object: objectReducer,
+      jobs: jobsReducer,
+      profile: profileReducer,
+      workers: workersReducer,
+    }),
+    HttpClientModule,
+    MatSnackBarModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

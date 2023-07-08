@@ -1,0 +1,88 @@
+<!-- register-client.component.html -->
+
+<div class="container">
+  <div class="register-form">
+    <div *ngIf="(userType$ | async ) != 'admin'">
+      <h1>Register and get the quality service you deserve</h1>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstname" placeholder="Enter your first name">
+        <mat-error *ngIf="f.firstname.errors?.required">First name is required.</mat-error>
+        <mat-error *ngIf="f.firstname.errors?.minlength">First name must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastname" placeholder="Enter your last name">
+        <mat-error *ngIf="f.lastname.errors?.required">Last name is required.</mat-error>
+        <mat-error *ngIf="f.lastname.errors?.minlength">Last name must be at least 3 characters long.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Enter your password">
+        <mat-error *ngIf="f.password.errors?.required">Password is required.</mat-error>
+        <mat-error *ngIf="f.password.errors?.minlength">Password must be at least 6 characters long.</mat-error>
+        <mat-error *ngIf="f.password.errors?.maxlength">Password cannot exceed 12 characters.</mat-error>
+        <mat-error *ngIf="f.password.errors?.pattern">Password must contain at least one uppercase letter, one number, and one special character.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm your password">
+        <mat-error *ngIf="f.confirmPassword.errors?.required">Confirm password is required.</mat-error>
+        <mat-error *ngIf="f.confirmPassword.errors?.passwordMismatch">Passwords do not match.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" placeholder="Enter your phone number">
+        <mat-error *ngIf="f.phone.errors?.required">Phone number is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email">
+        <mat-error *ngIf="f.email.errors?.required">Email is required.</mat-error>
+        <mat-error *ngIf="f.email.errors?.email">Invalid email address.</mat-error>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline"> -->
+        <mat-label>User avatar (300x300)</mat-label>
+        <input class="ng-hide" id="input-file-id" multiple type="file" (change)="onImageChange($event)" />
+        <!-- <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label> -->
+        <mat-error *ngIf="uploadError">{{ uploadError }}</mat-error>
+      <!-- </mat-form-field> -->
+
+      <div class="image-upload-status" [ngClass]="{ 'uploading': isUploading, 'success': !isUploading && !uploadError }">
+        <mat-icon *ngIf="isUploading">cloud_upload</mat-icon>
+        <mat-icon *ngIf="!isUploading && !uploadError">check_circle</mat-icon>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isRegistering || registerForm.invalid">
+        <span *ngIf="isRegistering" class="spinner"></span>
+        <span *ngIf="!isRegistering"> {{ (userType$ | async ) != 'admin' ? 'Register' : 'Create client'}}</span>
+      </button>
+
+      <div *ngIf="(userType$ | async ) != 'admin'">
+        <div class="separator"></div>
+
+        <div class="links">
+          <a routerLink="/register">Already have an account? Click here!</a>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+

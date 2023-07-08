@@ -1,0 +1,66 @@
+<div class="create-button">
+  <button mat-raised-button
+   color="primary"
+   (click)="navigateToCreatePage()"
+   >Create new object</button>
+</div>
+
+<table mat-table [dataSource]="objects " class="mat-elevation-z8">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let object">{{ object.id }}</td>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let object">{{ object.type }}</td>
+  </ng-container>
+
+  <!-- Address Column -->
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let object">{{ object.address }}</td>
+  </ng-container>
+
+  <!-- Country Column -->
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef>Country</th>
+    <td mat-cell *matCellDef="let object">{{ object.country }}</td>
+  </ng-container>
+
+  <!-- City Column -->
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef>City</th>
+    <td mat-cell *matCellDef="let object">{{ object.city }}</td>
+  </ng-container>
+
+  <!-- Area Column -->
+  <ng-container matColumnDef="area">
+    <th mat-header-cell *matHeaderCellDef>Area</th>
+    <td mat-cell *matCellDef="let object">{{ object.area }}</td>
+  </ng-container>
+
+  <!-- Room Count Column -->
+  <ng-container matColumnDef="roomCount">
+    <th mat-header-cell *matHeaderCellDef>Room Count</th>
+    <td mat-cell *matCellDef="let object">{{ object.roomCount }}</td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let object">
+      <button mat-icon-button color="primary" (click)="navigateToOverviewPage(object.id)">
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="destroyRow(object.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let object; columns: displayedColumns"></tr>
+</table>

@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+}
+
+.mat-cell {
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-row,
+.mat-header-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-cell,
+.mat-header-cell {
+  flex: 1;
+  padding: 8px;
+}
+
+.create-button {
+  text-align: right;
+  margin-bottom: 16px;
+}

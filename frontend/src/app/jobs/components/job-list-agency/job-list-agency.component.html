@@ -1,0 +1,48 @@
+<h2>Jobs requests</h2>
+<div class="card-list-container">
+  <div class="card-column">
+    <mat-card class="card" *ngFor="let jobRequest of jobRequests">
+      <div class="card-content">
+        <div class="info-container">
+          <h3>Job Request {{ jobRequest.id }}</h3>
+          <p>Start Date: {{ jobRequest.startDate | date }}</p>
+          <p>End Date: {{ jobRequest.endDate | date }}</p>
+          <p>Status: {{ jobRequest.status }}</p>
+          <p>User Info:</p>
+          <ul>
+            <li>Name: {{ jobRequest.userInfo.name }}</li>
+            <li>Surname: {{ jobRequest.userInfo.surname }}</li>
+            <li>Email: {{ jobRequest.userInfo.email }}</li>
+            <li>Phone: {{ jobRequest.userInfo.phone }}</li>
+          </ul>
+          <p>Object Info:</p>
+          <ul>
+            <li>Address: {{ jobRequest.objectInfo.address }}</li>
+            <li>Country: {{ jobRequest.objectInfo.country }}</li>
+            <li>City: {{ jobRequest.objectInfo.city }}</li>
+            <li>Area: {{ jobRequest.objectInfo.area }}</li>
+            <li>Type: {{ jobRequest.objectInfo.type }}</li>
+          </ul>
+          <div class="action-buttons">
+
+              <mat-label>Offer Price</mat-label>
+              <input matInput placeholder="Enter offer price" [(ngModel)]="offerPrice" type="number">
+
+            <button mat-button
+            color="primary"
+            [disabled]="offerPrice <= 0"
+            (click)="makeOffer(jobRequest.id)"
+            >Send Offer</button>
+            <button mat-button
+             color="warn"
+             (click)="rejectRequest(jobRequest.id)"
+             >Reject</button>
+          </div>
+        </div>
+        <div class="canvas-container">
+          <div [id]="'canvas-' + jobRequest.id" class="canvas-400"></div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

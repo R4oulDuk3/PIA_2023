@@ -1,0 +1,12 @@
+<mat-vertical-stepper [selectedIndex]="step" #stepper>
+  <mat-step [stepControl]="buildingForm">
+
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Create Building Sketch</ng-template>
+    <canvas #canvas></canvas>
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-button (click)="submit()">Submit</button>
+  </mat-step>
+</mat-vertical-stepper>

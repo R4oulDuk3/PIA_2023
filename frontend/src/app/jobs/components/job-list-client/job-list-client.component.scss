@@ -1,0 +1,20 @@
+.mat-table {
+  width: 100%;
+}
+
+.mat-cell,
+.mat-header-cell {
+  padding: 8px 16px;
+}
+
+.mat-header-row {
+  background-color: #f5f5f5; /* Apply your desired header background color */
+}
+
+.mat-row:nth-child(even) {
+  background-color: #f9f9f9; /* Apply your desired even row background color */
+}
+
+.mat-row:nth-child(odd) {
+  background-color: #ffffff; /* Apply your desired odd row background color */
+}

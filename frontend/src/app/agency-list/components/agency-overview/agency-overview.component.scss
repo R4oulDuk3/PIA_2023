@@ -1,0 +1,36 @@
+.agency-card-1 {
+  // margin: 2em auto;
+  width: 60%;
+  height: 20%;
+  margin: 2rem;
+}
+
+.agency-card-2 {
+  // margin: 2em auto;
+  width: 30%;
+  height: 20%;
+  margin: 2rem;
+}
+
+.agency-header-image {
+  background-size: cover;
+}
+
+.comments-section {
+  margin-top: 1em;
+}
+
+.demo-button-container {
+  display: flex;
+  padding: 16px;
+}
+
+.demo-button + .demo-button {
+  margin-left: 8px;
+}
+
+.agency-overview{
+  display: flex;
+  justify-content: space-around;
+  // margin: 2em auto;
+}

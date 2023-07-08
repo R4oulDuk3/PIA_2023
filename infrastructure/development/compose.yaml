@@ -3,10 +3,18 @@ version: "3.9"
 
 services:
   postgres:
+    deploy: 
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     container_name: postgres
     image: postgres:14
     ports:
-      - 5433:5432
+      - 5432:5432
     volumes:
       - data:/var/lib/postgresql/data
     environment:
@@ -20,6 +28,14 @@ services:
       - pia
 
   pgweb:
+    deploy: 
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
     container_name: pgweb
     image: sosedoff/pgweb:latest
     environment:
@@ -34,6 +50,7 @@ services:
     healthcheck:
       test: ["CMD", "nc", "-vz", "127.0.0.1", "8081"]
       interval: 5s
+
 
 volumes:
   data:

@@ -1,0 +1,118 @@
+<h1>This job is in state: {{ jobState }}</h1>
+<div class="container">
+  <div class="canvas-container" id="chartCanvas"></div>
+  <div class="content-container">
+    <div class="job-details">
+      <h2>Job Details</h2>
+      <p><strong>ID:</strong> {{ job.id }}</p>
+      <p><strong>Start Date:</strong> {{ job.startDate | date }}</p>
+      <p><strong>End Date:</strong> {{ job.endDate | date }}</p>
+      <p><strong>State:</strong> {{ job.state }}</p>
+      <p><strong>Price:</strong> {{ job.price }}</p>
+      <p><strong>Agency Name:</strong> {{ job.agencyName }}</p>
+      <p><strong>Object Address:</strong> {{ job.objectAddress }}</p>
+    </div>
+
+  </div>
+  <div class="form-container">
+    <h1>Workers</h1>
+    <div class="assigned-workers">
+      <h2>Assigned Workers</h2>
+      <ul>
+        <li *ngFor="let worker of assignedWorkers">
+          {{ worker.name }} {{ worker.surname }} - {{ worker.specialization }}
+        </li>
+      </ul>
+    </div>
+    <form [formGroup]="assignWorkersForm" *ngIf="userType == 'agency'">
+      <h2>Assign Workers</h2>
+      <mat-form-field>
+        <mat-label>Select Worker</mat-label>
+        <mat-select formControlName="selectedWorker">
+          <mat-option *ngFor="let worker of availableWorkers" [value]="worker.id">
+            {{ worker.name }} {{ worker.surname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="assignWorker()">Assign Worker</button>
+    </form>
+  </div>
+  <div>
+    <table mat-table [dataSource]="roomAndRoomProgress" class="mat-elevation-z8">
+      <!-- Ordinal Number Column -->
+      <ng-container matColumnDef="ordinalNumber">
+        <th mat-header-cell *matHeaderCellDef>Ordinal Number</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="x">
+        <th mat-header-cell *matHeaderCellDef>Cord X</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.room.cordX }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="y">
+        <th mat-header-cell *matHeaderCellDef>Cord Y</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.room.cordY }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="width">
+        <th mat-header-cell *matHeaderCellDef>Width</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.room.width }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="height">
+        <th mat-header-cell *matHeaderCellDef>Height</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ element.room.height }}</td>
+      </ng-container>
+
+
+      <!-- Work Started Column -->
+      <ng-container matColumnDef="workStarted">
+        <th mat-header-cell *matHeaderCellDef>Work Started</th>
+        <td mat-cell *matCellDef="let element">{{ (element.roomProgress &&  element.roomProgress.workStarted) ? 'Yes' : 'No' }}</td>
+      </ng-container>
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef>State</th>
+        <td mat-cell *matCellDef="let element">{{ (element.roomProgress &&  element.roomProgress.state )? element.roomProgress.state : "notStarted" }} </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <button mat-button color="primary"
+             [disabled]="((element.roomProgress &&  element.roomProgress.state != 'notStarted' ) || !checkIfJobHasEnoughAssignedWorkers() )" (click)="startWork(element.room.id)">
+              Start Work
+            </button>
+            <button mat-button color="primary"
+             [disabled]="((!element.roomProgress ||  element.roomProgress.state != 'inConstruction' ))" (click)="finishWork(element.room.id)">
+              Finish work
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<div *ngIf = "userType == 'client' && jobState == 'finished'">
+  <h1>Pay and Comment</h1>
+  <form [formGroup]="payAndCommentForm" (ngSubmit)="submitForm()">
+    <mat-form-field appearance="fill">
+      <mat-label>Comment</mat-label>
+      <input matInput formControlName="comment">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <input matInput type="number" formControlName="rating">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="payAndCommentForm.invalid">Pay and Submit</button>
+  </form>
+</div>

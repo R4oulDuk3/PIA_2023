@@ -1,11 +1,12 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="toggle-sidebar-button" (click)="toggleSidebar()">
-    <mat-icon>menu</mat-icon>
-  </button>
+  <div *ngIf="(isLoggedIn$ | async);">
+    <button mat-icon-button class="toggle-sidebar-button" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
 
   <div class="app-name-banner">
-    <!-- Replace "App Name" with your actual app name -->
-    <span class="app-name">App Name</span>
+    <span class="app-name" (click)="navigateToHome()">Agency Hire Place</span>
   </div>
 
   <div class="user-actions">
@@ -14,15 +15,19 @@
       <button mat-raised-button color="accent" routerLink="/register">Register</button>
     </ng-container>
     <ng-template #loggedInUser>
+      <ng-container *ngIf="(userType$ | async) == 'admin' " >
+        <button mat-button color="accent" (click)="routeToCreateClient()">Create Client</button>
+        <button mat-raised-button color="accent" (click)="routeToCreateAgency()" >Create Agency</button>
+      </ng-container>
       <div class="user-profile">
-        <!-- Replace "User Name" with the actual user's name -->
-        <span class="user-name">User Name</span>
+        <span class="user-name">{{ this.userName$ | async }}</span>
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>Profile overview</button>
-          <button mat-menu-item>Security overview</button>
+          <button mat-menu-item (click)="navigateToProfileOverview()">Profile overview</button>
+          <button mat-menu-item (click)="navigateToSecurity()">Security overview</button>
+          <button mat-menu-item (click)="logout()">Log out</button>
         </mat-menu>
       </div>
     </ng-template>

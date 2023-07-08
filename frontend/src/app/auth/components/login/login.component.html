@@ -1,32 +1,29 @@
-<div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form>
-        <mat-form-field>
-          <input matInput placeholder="Username" [(ngModel)]="username">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="password" placeholder="Password" [(ngModel)]="password">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="login()" [disabled]="isLoading">
-          <span *ngIf="isLoading">Logging in...</span>
-          <span *ngIf="!isLoading">Login</span>
-        </button>
-      </form>
-    </mat-card-content>
-    <mat-card-actions>
-      <span class="login-links">
-        <a routerLink="/register">Not registered yet, click here!</a>
-        <a routerLink="/forgot-password">Forgot password?</a>
-      </span>
-    </mat-card-actions>
-  </mat-card>
-</div>
+<!-- app.component.html -->
 
-<mat-spinner *ngIf="isLoading" class="login-spinner"></mat-spinner>
-<mat-snackbar *ngIf="error" class="login-error" [open]="error">
-  {{ error }}
-</mat-snackbar>
+<div class="container">
+  <div class="login-form">
+    <h1>Login</h1>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Enter your username" [(ngModel)]="username">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Enter your password" [(ngModel)]="password">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="login()" [disabled]="isLoading || !username || !password">
+      <span *ngIf="isLoading" class="spinner"></span>
+      <span *ngIf="!isLoading">Login</span>
+    </button>
+
+    <div class="separator"></div>
+
+    <div class="links">
+      <a routerLink="/register">Not registered yet? Click here!</a>
+      <a routerLink="/forgot-password">Forgot password?</a>
+    </div>
+  </div>
+</div>

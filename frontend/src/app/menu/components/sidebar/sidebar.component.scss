@@ -1,4 +1,10 @@
 /* navigation-menu.component.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .content {
   transition: margin-left 0.3s;
 }
@@ -8,7 +14,7 @@
 }
 
 mat-sidenav-container {
-  height: 100%;
+  flex: 1;
 }
 
 mat-sidenav {
@@ -32,4 +38,11 @@ a.mat-list-item {
 
 a.mat-list-item:hover {
   background-color: rgba(0, 0, 0, 0.1); /* Adjust the hover color as needed */
+}
+
+.footer {
+  height: 60px; /* Adjust as needed */
+  background-color: #f5f5f5; /* Change as needed */
+  text-align: center;
+  line-height: 60px; /* This should match the height of the footer */
 }

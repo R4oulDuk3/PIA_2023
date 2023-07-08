@@ -1,0 +1,275 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------COMMON----------------
+model Location {
+  id       Int      @id @default(autoincrement())
+  country  String
+  city     String
+  address  String
+  objects  Object[]
+  agencies Agency[]
+}
+
+enum RequestStatus {
+  pending
+  accepted
+  rejected
+}
+
+// ---------------ROLES----------------
+enum UserType {
+  client
+  agency
+  admin
+}
+
+model User {
+  id                  Int                  @id @default(autoincrement())
+  email               String               @unique
+  username            String               @unique
+  phone               String               @unique
+  password            String
+  image               String?
+  approved            Boolean              @default(false)
+  type                UserType
+  client              Client?               
+  agency              Agency?
+  token               PasswordResetToken?
+  admin               Admin?
+  registrationRequest RegistrationRequest?
+}
+
+model Client {
+  id      Int    @id @default(autoincrement())
+  name    String
+  surname String
+  idUser  Int    @unique
+  user    User   @relation(fields: [idUser], references: [id], onDelete: Cascade)
+  jobs    Job[]
+  jobRequests JobRequest[]
+  comments   Comment[]
+  objects    Object[]
+}
+
+model Agency {
+  id                             Int                             @id @default(autoincrement())
+  name                           String
+  idUser                         Int                             @unique
+  idLocation                     Int
+  location                       Location                        @relation(fields: [idLocation], references: [id], onDelete: Cascade)
+  uniqueCode                     String
+  description                    String
+  currentWorkerCount             Int                            @default(0)
+  maxWorkerCount                 Int                            @default(0)              
+  user                           User                            @relation(fields: [idUser], references: [id], onDelete: Cascade)
+  jobs                           Job[]
+  workers                        Worker[]
+  workerMaxCountIncreaseRequests WorkerMaxCountIncreaseRequest[]
+  jobRequests                    JobRequest[]
+  comments                       Comment[]
+}
+
+model Admin {
+  id     Int    @id @default(autoincrement())
+  name   String
+  idUser Int    @unique
+  user   User   @relation(fields: [idUser], references: [id], onDelete: Cascade)
+}
+
+// -----------------Registration----------------
+
+model RegistrationRequest {
+  id     Int           @id @default(autoincrement())
+  idUser Int           @unique
+  user   User          @relation(fields: [idUser], references: [id], onDelete: Cascade)
+  status RequestStatus
+}
+
+//-----------------PASSWORD RESET----------------
+
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  idUser     Int      @unique
+  token      String   @unique
+  createdAt  DateTime @default(now())
+  validUntil DateTime
+  user       User     @relation(fields: [idUser], references: [id], onDelete: Cascade)
+}
+
+// -----------------OBJECTS----------------
+
+enum ObjectType {
+  house
+  flat
+}
+
+model Object {
+  id        Int      @id @default(autoincrement())
+  type      ObjectType
+  addressId Int
+  address   Location @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  roomCount Int
+  area      Float
+  chart     Chart?
+  jobs      Job[]
+  jobRequests JobRequest[]
+  idClient  Int
+  client    Client   @relation(fields: [idClient], references: [id], onDelete: Cascade)
+}
+
+model Chart {
+  id       Int    @id @default(autoincrement())
+  idObject Int    @unique
+  object   Object @relation(fields: [idObject], references: [id], onDelete: Cascade)
+  rooms    Room[] 
+  doors    Door[] 
+}
+
+model Room {
+  id       Int            @id @default(autoincrement())
+  cordX    Float
+  cordY    Float
+  width    Float
+  height   Float
+  chartId  Int
+  chart    Chart          @relation(fields: [chartId], references: [id], onDelete: Cascade)
+  progress RoomProgress[]
+}
+
+model Door {
+  id     Int   @id @default(autoincrement())
+  cordX  Float
+  cordY  Float
+  width  Float
+  height Float
+  chartId  Int
+  chart    Chart          @relation(fields: [chartId], references: [id], onDelete: Cascade)
+}
+// -----------------Buisness----------------
+
+enum RommProgressState {
+  notStarted
+  inConstruction
+  finished
+}
+
+model RoomProgress {
+  id        Int       @id @default(autoincrement())
+  idRoom    Int       @unique
+  room      Room      @relation(fields: [idRoom], references: [id], onDelete: Cascade)
+  idJob     Int
+  job       Job       @relation(fields: [idJob], references: [id], onDelete: Cascade)
+  state RommProgressState @default(notStarted)
+}
+
+enum JobState {
+  inProgress
+  finished
+  canceled
+  paid
+}
+
+enum JobRequestStatus {
+  pending_no_offer
+  pending_with_offer
+  accepted
+  rejected
+}
+
+model JobRequest {
+  id        Int           @id @default(autoincrement())
+  status    JobRequestStatus @default(pending_no_offer)
+  offer     Float?
+  createdAt DateTime      @default(now())
+  idObject  Int
+  object    Object        @relation(fields: [idObject], references: [id], onDelete: Cascade)
+  idAgency  Int
+  agency    Agency        @relation(fields: [idAgency], references: [id], onDelete: Cascade)
+  idClient  Int
+  client    Client        @relation(fields: [idClient], references: [id], onDelete: Cascade)
+  startDate DateTime
+  endDate   DateTime
+}
+
+model Job {
+  id           Int             @id @default(autoincrement())
+  startDate    DateTime
+  endDate      DateTime
+  price        Float
+  state        JobState        @default(inProgress)
+  idObject     Int
+  object       Object          @relation(fields: [idObject], references: [id], onDelete: Cascade)
+  idAgency     Int
+  agency       Agency          @relation(fields: [idAgency], references: [id], onDelete: Cascade)
+  idClient     Int
+  client       Client          @relation(fields: [idClient], references: [id], onDelete: Cascade)
+  roomProgress RoomProgress[]
+  jobAssigments JobAssigment[]
+  cancelation  JobCancelation?
+}
+
+model JobAssigment {
+  id        Int           @id @default(autoincrement())
+  idJob     Int           
+  job       Job           @relation(fields: [idJob], references: [id], onDelete: Cascade)
+  idWorker  Int
+  worker    Worker        @relation(fields: [idWorker], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+}
+
+model JobCancelation {
+  id        Int           @id @default(autoincrement())
+  idJob     Int           @unique
+  job       Job           @relation(fields: [idJob], references: [id], onDelete: Cascade)
+  reason    String
+  status    RequestStatus @default(pending)
+  createdAt DateTime      @default(now())
+}
+
+// -----------------Agency----------------
+
+model WorkerMaxCountIncreaseRequest {
+  id        Int           @id @default(autoincrement())
+  idAgency  Int           
+  agency    Agency        @relation(fields: [idAgency], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+  newMaxWorkerCount Int
+  status    RequestStatus @default(pending)
+}
+
+model Worker {
+  id             Int    @id @default(autoincrement())
+  name           String
+  surname        String
+  email          String @unique
+  specialization String
+  idAgency       Int
+  agency         Agency @relation(fields: [idAgency], references: [id], onDelete: Cascade)
+  jobAssgiments JobAssigment[]
+}
+
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  idAgency  Int
+  agency    Agency   @relation(fields: [idAgency], references: [id], onDelete: Cascade)
+  idClient  Int
+  client    Client   @relation(fields: [idClient], references: [id], onDelete: Cascade)
+  text      String
+  rating    Int 
+  createdAt DateTime @default(now())
+}
+
+
+// -----------------Admin----------------
+
