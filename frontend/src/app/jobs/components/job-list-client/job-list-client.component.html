@@ -45,12 +45,13 @@
     <mat-header-cell mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
     <mat-cell mat-cell *matCellDef="let jobRequest">
       <button mat-icon-button color="primary"
-      [disabled]="jobRequest.offer == null"
+      [disabled]="jobRequest.offer == null || jobRequest.status == 'accepted' || jobRequest.status == 'rejected'"
       (click)="acceptRequest(jobRequest.id)" >
         <mat-icon>check_circle</mat-icon>
       </button>
       <button mat-icon-button
        color="warn"
+       [disabled]="jobRequest.offer == null || jobRequest.status == 'accepted' || jobRequest.status == 'rejected'"
        (click)="rejectRequest(jobRequest.id)">
         <mat-icon>cancel</mat-icon>
       </button>
@@ -64,4 +65,16 @@
   <!-- Table Rows -->
   <mat-row *matRowDef="let jobRequest; columns: ['id', 'startDate', 'endDate', 'agencyName', 'objectAddress', 'status', 'offer', 'actions']"></mat-row>
 </mat-table>
+<div class="filter-form ">
+  <mat-form-field>
+    <mat-label>Filter by Status</mat-label>
+    <mat-select [(value)]="filterStatus" (selectionChange)="applyFilter()">
+      <mat-option value="">All</mat-option>
+      <mat-option value="accepted">Accepted</mat-option>
+      <mat-option value="rejected">Rejected</mat-option>
+      <mat-option value="pending_with_no_offer">Pending with No Offer</mat-option>
+      <mat-option value="pending_with_offer">Pending with Offer</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <app-job-list-active-agency></app-job-list-active-agency>

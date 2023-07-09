@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 export const GUEST = 'guest';
 export const CLIENT = 'client';
@@ -16,7 +17,7 @@ export const loginSuccess = createAction(
 
 export const loginFailure = createAction(
   '[Auth] Login Failure',
-  props<{ error: string }>()
+  props<{ error: HttpErrorResponse }>()
 );
 
 export const becomeUserSuccess = createAction(

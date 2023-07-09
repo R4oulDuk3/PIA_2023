@@ -5,6 +5,7 @@ import { AppState } from 'src/app/state/app.state';
 import { userType } from 'src/app/state/auth/auth.selectors';
 import { toggleSidebar, closeSidebar } from 'src/app/state/menu/menu.actions';
 import { isSidebarOpen } from 'src/app/state/menu/menu.selectors';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +13,7 @@ import { isSidebarOpen } from 'src/app/state/menu/menu.selectors';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private location: Location) {}
 
   public isOpen$: Observable<boolean> = this.store.select(isSidebarOpen);
   public userType$: Observable<string> = this.store.select(userType);
@@ -21,6 +22,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   ngOnInit(): void {

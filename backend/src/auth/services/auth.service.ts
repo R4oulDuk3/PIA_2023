@@ -297,59 +297,59 @@ export class AuthService {
     await this.createAdmin();
     const registerAgencyDto: RegisterAgencyDto = {
       username: 'agency',
-      password: 'agency',
-      phone: 'agency',
+      password: 'Agency1',
+      phone: '+381641234560',
       image:
         'https://pia-projekat-bucket.s3.eu-west-2.amazonaws.com/default.png',
-      email: 'agency',
-      name: 'agency',
-      uniqueCode: 'agency',
-      address: 'agency',
-      city: 'agency',
-      country: 'agency',
-      description: 'agency',
+      email: 'steelmen@gmail.com',
+      name: 'SteelMen',
+      uniqueCode: '12341234',
+      address: 'Banovo brdo 1',
+      city: 'Beograd',
+      country: 'Srbija',
+      description: 'Best agency in the world',
     };
     const registerAgencyDto2: RegisterAgencyDto = {
       username: 'agency2',
-      password: 'agency2',
-      phone: 'agency2',
+      password: 'Agency2',
+      phone: '+381641234561',
       image:
         'https://pia-projekat-bucket.s3.eu-west-2.amazonaws.com/default.png',
-      email: 'agency2',
-      name: 'agency2',
-      uniqueCode: 'agency2',
-      address: 'agency2',
-      city: 'agency2',
-      country: 'agency2',
-      description: 'agency2',
+      email: 'easypeasy@gmail.com',
+      name: 'EasyPeasy',
+      uniqueCode: '21342134',
+      address: 'Banovo brdo 2',
+      city: 'Beograd',
+      country: 'Srbija',
+      description: 'We will do it for you, easy peasy',
     };
     const registerAgencyDto3: RegisterAgencyDto = {
       username: 'agency3',
-      password: 'agency3',
-      phone: 'agency3',
+      password: 'Agency3',
+      phone: '+381641234562',
       image:
         'https://pia-projekat-bucket.s3.eu-west-2.amazonaws.com/default.png',
-      email: 'agency3',
-      name: 'agency3',
-      uniqueCode: 'agency3',
-      address: 'agency3',
-      city: 'agency3',
-      country: 'agency3',
-      description: 'agency3',
+      email: 'workhardplayhard@gmail.com',
+      name: 'Work Hard Play Hard',
+      uniqueCode: '31233123',
+      address: 'Banovo brdo 3',
+      city: 'Beograd',
+      country: 'Srbija',
+      description: 'We work hard and play hard',
     };
 
     await this.registerAgency(registerAgencyDto);
     await this.registerAgency(registerAgencyDto2);
     await this.registerAgency(registerAgencyDto3);
     const registerClientDto: RegisterClientDto = {
-      username: 'client',
-      surname: 'client',
-      password: 'client',
-      phone: 'client',
+      username: 'client1',
+      surname: 'Doe',
+      password: 'Client1',
+      phone: '+381641234565',
       image:
         'https://pia-projekat-bucket.s3.eu-west-2.amazonaws.com/default.png',
-      email: 'client',
-      name: 'client',
+      email: 'jhondoe@gmail.com',
+      name: 'Jhon',
     };
     await this.registerClient(registerClientDto);
     await sleep(1000);

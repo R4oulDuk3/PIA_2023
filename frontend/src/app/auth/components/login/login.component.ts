@@ -6,6 +6,7 @@ import { AppState } from 'src/app/state/app.state';
 import { errorMessage, isLoggedIn } from 'src/app/state/auth/auth.selectors';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,9 +30,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginErrorMessageSubscription = this.store
       .select(errorMessage)
       .subscribe({
-        next: (error?: string) => {
+        next: (error?: HttpErrorResponse) => {
           if (error) {
-            this.snackBar.showSnackbar(error);
+            if (error.status === 404) {
+              this.snackBar.showSnackbar('User not found');
+            } else if (error.status === 500) {
+              this.snackBar.showSnackbar("There's a problem with the server");
+            }
           }
         },
       });

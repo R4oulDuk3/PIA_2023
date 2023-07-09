@@ -6,6 +6,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { AppState } from 'src/app/state/app.state';
 import { errorMessage, isLoggedIn } from 'src/app/state/auth/auth.selectors';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-login',
@@ -30,9 +31,13 @@ export class AdminLoginComponent implements OnInit {
     this.loginErrorMessageSubscription = this.store
       .select(errorMessage)
       .subscribe({
-        next: (error?: string) => {
+        next: (error?: HttpErrorResponse) => {
           if (error) {
-            this.snackBar.showSnackbar(error);
+            if (error.status === 404) {
+              this.snackBar.showSnackbar('User not found');
+            } else if (error.status === 500) {
+              this.snackBar.showSnackbar("There's a problem with the server");
+            }
           }
         },
       });

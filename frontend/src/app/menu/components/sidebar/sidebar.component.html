@@ -11,6 +11,9 @@
 
     <mat-sidenav-content>
       <div class="content" [class.menu-open]="isOpen$ | async">
+        <button mat-icon-button (click)="goBack()" *ngIf="(userType$ | async) == 'guest'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

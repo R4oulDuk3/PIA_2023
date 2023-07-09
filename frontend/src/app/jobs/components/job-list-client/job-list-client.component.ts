@@ -5,6 +5,7 @@ import { AppState } from 'src/app/state/app.state';
 import { GetJobRequestResponseDto } from '../../dtos/jobs-requests.dto';
 import { jobRequests } from 'src/app/state/jobs/jobs.selectors';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-job-list',
@@ -17,17 +18,29 @@ export class JobListClientComponent implements OnInit {
     private store: Store<AppState>,
     private snackbar: SnackbarService
   ) {}
+  filterStatus: string;
+  jobRequests: MatTableDataSource<GetJobRequestResponseDto>;
 
   refresh() {
     this.jobRequestService.getJobRequestsForClientList();
     this.store.select(jobRequests).subscribe((jobRequests) => {
-      this.jobRequests = jobRequests;
+      this.jobRequests = new MatTableDataSource(jobRequests);
     });
   }
   ngOnInit(): void {
     this.refresh();
+    this.jobRequests.filterPredicate = this.createFilter();
   }
-  jobRequests: GetJobRequestResponseDto[] = [];
+  createFilter(): (data: any, filter: string) => boolean {
+    const filterFunction = function (data: any, filter: string): boolean {
+      return data.status == filter;
+    };
+    return filterFunction;
+  }
+
+  applyFilter() {
+    this.jobRequests.filter = this.filterStatus;
+  }
 
   acceptRequest(requestId: number) {
     this.jobRequestService

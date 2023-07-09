@@ -14,7 +14,7 @@ export const userType = createSelector(selectAuth, (auth) => auth.userType);
 
 export const errorMessage = createSelector(
   selectAuth,
-  (auth) => auth.loginErrorMessage
+  (auth) => auth.loginError
 );
 
 export const registerErrorMessage = createSelector(

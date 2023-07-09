@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   GetRegistrationRequestsDto,
   HandleRegistrationRequestDto,
@@ -54,9 +54,9 @@ export class AuthService {
           })
         );
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
-        this.store.dispatch(loginFailure({ error: error.message }));
+        this.store.dispatch(loginFailure({ error: error }));
       },
     });
   }

@@ -165,7 +165,7 @@ enum RommProgressState {
 
 model RoomProgress {
   id        Int       @id @default(autoincrement())
-  idRoom    Int       @unique
+  idRoom    Int       
   room      Room      @relation(fields: [idRoom], references: [id], onDelete: Cascade)
   idJob     Int
   job       Job       @relation(fields: [idJob], references: [id], onDelete: Cascade)

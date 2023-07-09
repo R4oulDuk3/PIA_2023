@@ -109,6 +109,7 @@ export class ObjectEditorComponent implements OnInit, AfterViewInit {
 
   initializeStateFromDto(object: GetObjectForUserResultDto) {
     this.resetState();
+    console.log(object);
     this.buildingForm.get('objectType')?.setValue(object.type);
     this.buildingForm.get('address')?.setValue(object.address);
     this.buildingForm.get('city')?.setValue(object.city);

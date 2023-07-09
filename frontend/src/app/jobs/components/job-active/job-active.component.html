@@ -16,7 +16,7 @@
   </div>
   <div class="form-container">
     <h1>Workers</h1>
-    <div class="assigned-workers">
+    <div class="assigned-workers" *ngIf="job.state != 'inProgress'">
       <h2>Assigned Workers</h2>
       <ul>
         <li *ngFor="let worker of assignedWorkers">

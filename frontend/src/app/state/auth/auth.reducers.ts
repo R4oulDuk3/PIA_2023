@@ -15,13 +15,14 @@ import {
   registerReset,
 } from './auth.actions';
 import { access } from 'fs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface AuthState {
   isLoggedIn: boolean;
   isAdminBecomeUser: boolean;
   adminUsername?: string;
   accessToken?: string;
-  loginErrorMessage?: string;
+  loginError?: HttpErrorResponse;
   registerRequestSucessful?: boolean;
   registerUsername?: string;
   registerEmail?: string;
@@ -80,7 +81,7 @@ export const authReducer = createReducer(
   on(loginFailure, (state, action) => {
     return {
       ...state,
-      loginErrorMessage: action.error,
+      loginError: action.error,
     };
   }),
   on(registerFailure, (state, action) => {

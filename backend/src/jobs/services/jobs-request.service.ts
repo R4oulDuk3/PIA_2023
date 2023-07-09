@@ -66,11 +66,11 @@ export class JobsService {
   ): Promise<GetJobRequestListResponseDto> {
     const jobRequests = await this.prisma.jobRequest.findMany({
       where: {
-        status: {
-          not: {
-            in: ['rejected', 'accepted'],
-          },
-        },
+        // status: {
+        //   not: {
+        //     in: ['accepted'],
+        //   },
+        // },
         client: {
           user: {
             username: getJobRequestsDto.username,

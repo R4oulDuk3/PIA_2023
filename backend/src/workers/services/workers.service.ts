@@ -40,7 +40,11 @@ export class WorkersService {
         ...(unassigned
           ? {
               jobAssgiments: {
-                none: {},
+                none: {
+                  job: {
+                    state: 'inProgress',
+                  },
+                },
               },
             }
           : {}),
